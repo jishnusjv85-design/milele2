@@ -1,0 +1,13 @@
+{
+  "name": "milele-jewels",
+  "version": "1.0.0",
+  "description": "Milèle Jewels - Heirloom Jewellery E-commerce",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "start": "python -m http.server 8000",
+    "build": "echo 'Static site - no build step required'"
+  },
+  "keywords": ["jewellery", "ecommerce", "static-site"],
+  "author": "Milèle Jewels",
+  "license": "MIT"
+}

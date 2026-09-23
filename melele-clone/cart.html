@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Bag — Milèle Jewels</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo">Milèle</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="shop.html">Shop</a>
+      <a href="shop.html?category=Necklaces">Necklaces</a>
+      <a href="shop.html?category=Earrings">Earrings</a>
+    </nav>
+    <div class="header-actions">
+      <a href="auth.html">Sign in</a>
+      <a href="cart.html" class="cart-link active">
+        Cart <span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="cart-shell">
+  <div class="wrap">
+    <h1 class="cart-title">Your Bag</h1>
+    <div id="cart-root"></div>
+  </div>
+</section>
+
+<script src="js/main.js"></script>
+<script>
+  function renderCartPage() {
+    const root = document.getElementById("cart-root");
+    const cart = getCart();
+    const entries = Object.entries(cart);
+
+    if (entries.length === 0) {
+      root.innerHTML = `
+        <div class="empty-state">
+          <p>Your bag is empty.</p>
+          <a href="shop.html" class="btn btn-dark">Explore Collection</a>
+        </div>`;
+      return;
+    }
+
+    let subtotal = 0;
+    const itemsHtml = entries.map(([id, qty]) => {
+        const p = PRODUCTS.find(x => x.id === id);
+        if (!p) return "";
+        subtotal += p.price * qty;
+        const thumbHtml = p.img
+          ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`
+          : "";
+        return `
+          <div class="cart-item">
+            <div class="cart-thumb">${thumbHtml}</div>
+            <div>
+              <h4>${p.name}</h4>
+              <div class="meta">${p.category}</div>
+              <div class="qty-row">
+                <button onclick="setQty('${id}', ${qty - 1}); renderCartPage();">−</button>
+                <span>${qty}</span>
+                <button onclick="setQty('${id}', ${qty + 1}); renderCartPage();">+</button>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div style="margin-bottom:10px">${fmtINR(p.price * qty)}</div>
+              <button class="remove-link" onclick="removeFromCart('${id}'); renderCartPage();">Remove</button>
+            </div>
+          </div>`;
+      }).join("");
+
+    const shipping = subtotal > 0 ? 0 : 0;
+
+    root.innerHTML = `
+      <div class="cart-layout">
+        <div>${itemsHtml}</div>
+        <div class="summary-card">
+          <div class="summary-row"><span>Subtotal</span><span>${fmtINR(subtotal)}</span></div>
+          <div class="summary-row"><span>Shipping</span><span>Free</span></div>
+          <div class="summary-total"><span>Total</span><span>${fmtINR(subtotal)}</span></div>
+          <button class="whatsapp-btn" onclick="checkoutOnWhatsApp()">
+            Checkout on WhatsApp
+          </button>
+        </div>
+      </div>`;
+  }
+
+  renderCartPage();
+</script>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="footer-logo">Milèle</span>
+        <p>Heirloom jewellery, handcrafted with intention. Worn forever, treasured always.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul class="footer-links">
+          <li><a href="shop.html">All Jewellery</a></li>
+          <li><a href="shop.html?category=Necklaces">Necklaces</a></li>
+          <li><a href="shop.html?category=Earrings">Earrings</a></li>
+          <li><a href="shop.html?category=Rings">Rings</a></li>
+          <li><a href="shop.html?category=Bracelets">Bracelets</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>About</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="#">Craftsmanship</a></li>
+          <li><a href="#">Lifetime Care</a></li>
+          <li><a href="#">Ethical Sourcing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul class="footer-links">
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns & Exchange</a></li>
+          <li><a href="#">Size Guide</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p>WhatsApp: <a href="https://wa.me/919497233822">+91 94972 33822</a></p>
+        <p>Email: <a href="mailto:hello@milele.com">hello@milele.com</a></p>
+        <p>Jaipur, Rajasthan, India</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Milèle Jewels. All rights reserved.</span>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="17" x2="12" y2="12"/><path d="M5 17h14v-2.5a2.5 2.5 0 0 0-5 0V17"/><circle cx="12" cy="12" r="10"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

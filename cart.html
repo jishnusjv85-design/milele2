@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Bag — Milèle Jewels</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo">Milèle</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="shop.html?category=Necklaces">Necklaces</a>
+      <a href="shop.html?category=Earrings">Earrings</a>
+    </nav>
+    <div class="header-actions">
+      <a href="auth.html">Sign in</a>
+      <a href="cart.html" class="cart-link active">
+        Cart <span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="cart-shell">
+  <div class="wrap">
+    <h1 class="cart-title">Your Bag</h1>
+    <div id="cart-root"></div>
+  </div>
+</section>
+
+<script src="js/main.js"></script>
+<script>
+  function renderCartPage() {
+    const root = document.getElementById("cart-root");
+    const cart = getCart();
+    const entries = Object.entries(cart);
+
+    if (entries.length === 0) {
+      root.innerHTML = `
+        <div class="empty-state">
+          <p>Your bag is empty.</p>
+          <a href="shop.html" class="btn btn-dark">Explore Collection</a>
+        </div>`;
+      return;
+    }
+
+    let subtotal = 0;
+    const itemsHtml = entries.map(([id, qty]) => {
+      const p = PRODUCTS.find(x => x.id === id);
+      if (!p) return "";
+      subtotal += p.price * qty;
+      return `
+        <div class="cart-item">
+          <div class="cart-thumb"></div>
+          <div>
+            <h4>${p.name}</h4>
+            <div class="meta">${p.category}</div>
+            <div class="qty-row">
+              <button onclick="setQty('${id}', ${qty - 1}); renderCartPage();">−</button>
+              <span>${qty}</span>
+              <button onclick="setQty('${id}', ${qty + 1}); renderCartPage();">+</button>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="margin-bottom:10px">${fmtINR(p.price * qty)}</div>
+            <button class="remove-link" onclick="removeFromCart('${id}'); renderCartPage();">Remove</button>
+          </div>
+        </div>`;
+    }).join("");
+
+    const shipping = subtotal > 0 ? 0 : 0;
+
+    root.innerHTML = `
+      <div class="cart-layout">
+        <div>${itemsHtml}</div>
+        <div class="summary-card">
+          <div class="summary-row"><span>Subtotal</span><span>${fmtINR(subtotal)}</span></div>
+          <div class="summary-row"><span>Shipping</span><span>Free</span></div>
+          <div class="summary-total"><span>Total</span><span>${fmtINR(subtotal)}</span></div>
+          <button class="whatsapp-btn" onclick="checkoutOnWhatsApp()">
+            Checkout on WhatsApp
+          </button>
+        </div>
+      </div>`;
+  }
+
+  renderCartPage();
+</script>
+</body>
+</html>

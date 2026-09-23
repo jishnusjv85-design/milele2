@@ -1,0 +1,13 @@
+# Vercel ignore patterns
+.git
+.gitignore
+*.md
+.vscode
+.idea
+*.zip
+files.zip
+melele-clone.zip
+node_modules
+.DS_Store
+Thumbs.db
+*.log

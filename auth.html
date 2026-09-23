@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in — Milèle Jewels</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo">Milèle</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="shop.html?category=Necklaces">Necklaces</a>
+      <a href="shop.html?category=Earrings">Earrings</a>
+    </nav>
+    <div class="header-actions">
+      <a href="auth.html">Sign in</a>
+      <a href="cart.html" class="cart-link">
+        Cart <span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="auth-shell">
+  <div class="auth-card">
+    <h1>Milèle</h1>
+    <p class="sub">Sign in to track orders and save favourites</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="signin">Sign In</button>
+      <button class="auth-tab" data-tab="signup">Sign Up</button>
+    </div>
+
+    <form id="auth-form" onsubmit="event.preventDefault(); alert('This demo has no backend yet — connect Supabase auth to make this functional.');">
+      <div class="field" id="name-field" style="display:none">
+        <label for="name">Full name</label>
+        <input type="text" id="name" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="auth-submit" id="submit-btn">Sign In</button>
+    </form>
+  </div>
+</section>
+
+<script src="js/main.js"></script>
+<script>
+  const tabs = document.querySelectorAll(".auth-tab");
+  const nameField = document.getElementById("name-field");
+  const submitBtn = document.getElementById("submit-btn");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const isSignup = tab.dataset.tab === "signup";
+      nameField.style.display = isSignup ? "block" : "none";
+      submitBtn.textContent = isSignup ? "Create Account" : "Sign In";
+    });
+  });
+</script>
+</body>
+</html>

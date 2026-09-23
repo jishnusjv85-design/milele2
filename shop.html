@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop — Milèle Jewels</title>
+<meta name="description" content="Browse our handcrafted collection of necklaces, earrings, rings and bracelets.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo">Milèle</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html" class="active">Shop</a>
+      <a href="shop.html?category=Necklaces">Necklaces</a>
+      <a href="shop.html?category=Earrings">Earrings</a>
+    </nav>
+    <div class="header-actions">
+      <a href="auth.html">Sign in</a>
+      <a href="cart.html" class="cart-link">
+        Cart <span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="shop-hero">
+  <span class="section-eyebrow">Collection</span>
+  <h1 class="section-title">All pieces</h1>
+</section>
+
+<div class="filter-bar" id="filter-bar">
+  <button class="filter-chip" data-cat="All">All</button>
+  <button class="filter-chip" data-cat="Necklaces">Necklaces</button>
+  <button class="filter-chip" data-cat="Earrings">Earrings</button>
+  <button class="filter-chip" data-cat="Rings">Rings</button>
+  <button class="filter-chip" data-cat="Bracelets">Bracelets</button>
+</div>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="product-grid" id="shop-grid"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <span class="footer-logo">Milèle</span>
+        <p>Heirloom jewellery, handcrafted with intention. Worn forever, treasured always.</p>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <p>Made in India<br>Shipping worldwide</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>WhatsApp orders<br>+91 94972 33822</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Milèle Jewels. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  const grid = document.getElementById("shop-grid");
+  const params = new URLSearchParams(location.search);
+  let activeCat = params.get("category") || "All";
+
+  function applyFilter(cat) {
+    activeCat = cat;
+    document.querySelectorAll(".filter-chip").forEach(chip => {
+      chip.classList.toggle("active", chip.dataset.cat === cat);
+    });
+    const list = cat === "All" ? PRODUCTS : PRODUCTS.filter(p => p.category === cat);
+    renderGrid(grid, list);
+    const url = new URL(location);
+    if (cat === "All") url.searchParams.delete("category");
+    else url.searchParams.set("category", cat);
+    history.replaceState({}, "", url);
+  }
+
+  document.querySelectorAll(".filter-chip").forEach(chip => {
+    chip.addEventListener("click", () => applyFilter(chip.dataset.cat));
+  });
+
+  applyFilter(["All","Necklaces","Earrings","Rings","Bracelets"].includes(activeCat) ? activeCat : "All");
+</script>
+</body>
+</html>
