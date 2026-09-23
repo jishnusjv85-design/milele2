@@ -28,16 +28,34 @@
   </div>
 </header>
 
-<section class="hero">
-  <img src="public/Necklaces/22fc8d40-eb18-4177-90f4-78492273ca8f.jpg" alt="Kundan & Pearl Necklace">
-  <div class="hero-content">
-    <span class="eyebrow">New Heritage Collection</span>
-    <h1>Worn forever. <em>Treasured</em> always.</h1>
-    <p>Handcrafted gold, kundan and diamond jewellery — designed to be passed down, not put down.</p>
-    <div class="hero-ctas">
-      <a href="shop.html" class="btn btn-primary">Explore Collection</a>
-      <a href="shop.html?category=Necklaces" class="btn btn-outline">Bridal Edit</a>
+<section class="hero hero-slider" aria-label="Milele featured collections">
+  <div class="hero-slide active">
+    <img src="public/Necklaces/22fc8d40-eb18-4177-90f4-78492273ca8f.jpg" alt="Kundan & Pearl Necklace">
+    <div class="hero-content">
+      <span class="eyebrow">New Heritage Collection</span>
+      <h1>Worn forever. <em>Treasured</em> always.</h1>
+      <p>Handcrafted gold, kundan and diamond jewellery — designed to be passed down, not put down.</p>
+      <div class="hero-ctas">
+        <a href="shop.html" class="btn btn-primary">Explore Collection</a>
+        <a href="shop.html?category=Necklaces" class="btn btn-outline">Bridal Edit</a>
+      </div>
     </div>
+  </div>
+
+  <div class="hero-slide hero-slide-eternity">
+    <div class="hero-content hero-content-centered">
+      <span class="eyebrow hero-brand">M I L E L E</span>
+      <h1>Eternity in Every <em>Detail</em></h1>
+      <p>Exquisite handcrafted jewelry inspired by the Swahili concept of “Milele”—forever. Discover fine diamonds, rare emeralds, and glowing South Sea pearls designed to last lifetimes.</p>
+      <div class="hero-ctas">
+        <a href="shop.html" class="btn btn-primary">Explore Collection</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-dots" aria-label="Hero slides">
+    <button class="hero-dot active" type="button" aria-label="Show slide 1"></button>
+    <button class="hero-dot" type="button" aria-label="Show slide 2"></button>
   </div>
 </section>
 
@@ -228,6 +246,33 @@
     alert('Thank you for your enquiry! We will respond within 24 hours.');
     this.reset();
   });
+</script>
+<script>
+  (() => {
+    const slides = [...document.querySelectorAll('.hero-slide')];
+    const dots = [...document.querySelectorAll('.hero-dot')];
+    if (slides.length < 2) return;
+    let current = 0;
+    let timer;
+
+    const showSlide = (index) => {
+      current = index;
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+    };
+
+    const start = () => {
+      clearInterval(timer);
+      timer = setInterval(() => showSlide((current + 1) % slides.length), 6000);
+    };
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => {
+      showSlide(i);
+      start();
+    }));
+
+    start();
+  })();
 </script>
 </body>
 </html>
