@@ -1721,3 +1721,65 @@ body {
   .trust-detail-grid { grid-template-columns: 1fr; }
   .trust-contact-band .wrap { align-items: flex-start; flex-direction: column; }
 }
+
+
+/* ===== 7/14: typography and spacing system ===== */
+:root {
+  --container: 1240px;
+  --space-xs: 8px;
+  --space-sm: 14px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 72px;
+  --space-2xl: 112px;
+  --radius-sm: 3px;
+  --radius-md: 8px;
+}
+body {
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: .005em;
+}
+h1, h2, h3, .section-title, .product-name {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+.wrap {
+  width: min(100%, var(--container));
+  padding-left: clamp(20px, 4vw, 40px);
+  padding-right: clamp(20px, 4vw, 40px);
+}
+.section {
+  padding: clamp(72px, 9vw, var(--space-2xl)) 0;
+}
+.section-head {
+  margin-bottom: clamp(30px, 4vw, 52px);
+}
+.section-eyebrow {
+  color: var(--gold);
+  font-weight: 500;
+}
+.section-title {
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.06;
+}
+.product-name {
+  line-height: 1.15;
+}
+.btn {
+  min-height: 50px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+.enquiry-form,
+.auth-card,
+.summary-card {
+  border-radius: var(--radius-sm);
+}
+@media (max-width: 560px) {
+  body { font-size: 15px; }
+  .section { padding: 64px 0; }
+  .section-title { font-size: 34px; }
+}
