@@ -1137,14 +1137,19 @@ body {
 .hero-artwork {
   position: relative;
   width: 100%;
+  min-height: 82vh;
   overflow: hidden;
   background: #070708;
 }
 
 .hero-artwork img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
 }
 
 .hero-artwork-button {
@@ -1187,6 +1192,14 @@ body {
 }
 
 @media (max-width: 700px) {
+  .hero-artwork {
+    min-height: 68vh;
+  }
+
+  .hero-artwork img {
+    object-position: center center;
+  }
+
   .hero-artwork-button {
     top: 62.8%;
     min-width: 150px;
