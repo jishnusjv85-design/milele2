@@ -245,3 +245,75 @@ function initFloatingWhatsApp() {
   document.body.appendChild(a);
 }
 document.addEventListener("DOMContentLoaded", initFloatingWhatsApp);
+
+
+/* ---------------- unified professional footer ---------------- */
+function renderProfessionalFooter() {
+  const footer = document.querySelector(".site-footer");
+  if (!footer) return;
+  footer.innerHTML = `
+    <div class="wrap">
+      <div class="footer-assistance">
+        <div>
+          <span class="section-eyebrow">Personal assistance</span>
+          <h2>Need help choosing a piece?</h2>
+          <p>Ask about specifications, sizing, availability or delivery before you order.</p>
+        </div>
+        <a class="btn btn-primary" href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" rel="noopener">Talk to Milèle</a>
+      </div>
+
+      <div class="footer-grid footer-grid-pro">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">Milèle</a>
+          <p>Jewellery made for the pieces you keep—considered detail, clear product information and personal assistance when you need it.</p>
+        </div>
+
+        <div>
+          <h4>Shop</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html">All jewellery</a></li>
+            <li><a href="shop.html?category=Necklaces">Necklaces</a></li>
+            <li><a href="shop.html?category=Earrings">Earrings</a></li>
+            <li><a href="shop.html?category=Rings">Rings</a></li>
+            <li><a href="shop.html?category=Bracelets">Bracelets</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Discover</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">Our story</a></li>
+            <li><a href="about.html#craftsmanship">Craftsmanship</a></li>
+            <li><a href="about.html#materials">Materials & selection</a></li>
+            <li><a href="care.html">Care & authenticity</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Customer care</h4>
+          <ul class="footer-links">
+            <li><a href="support.html#shipping">Shipping</a></li>
+            <li><a href="support.html#returns">Returns & exchanges</a></li>
+            <li><a href="support.html#size">Sizing help</a></li>
+            <li><a href="support.html#faq">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p><a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" rel="noopener">WhatsApp +91 94972 33822</a></p>
+          <p><a href="mailto:hello@milele.com">hello@milele.com</a></p>
+          <p>Product details and delivery timing are confirmed before order.</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Milèle Jewels. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="care.html">Care & authenticity</a>
+          <a href="support.html">Customer care</a>
+        </div>
+      </div>
+    </div>`;
+}
+document.addEventListener("DOMContentLoaded", renderProfessionalFooter);
