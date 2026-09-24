@@ -122,26 +122,29 @@ function diamondIconSVG() {
 }
 
 function productCard(p) {
+  const productUrl = `product.html?id=${encodeURIComponent(p.id)}`;
   const mediaHtml = p.img
-    ? `<img src="${p.img}" alt="${p.name}" loading="lazy">`
+    ? `<img src="${p.img}" alt="${p.name}" loading="lazy" decoding="async">`
     : diamondIconSVG();
   return `
-    <div class="product-card">
-      <div class="product-media">
+    <article class="product-card">
+      <a class="product-media" href="${productUrl}" aria-label="View ${p.name}">
         ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ""}
         ${mediaHtml}
-      </div>
+        <span class="product-view-hint">View piece</span>
+      </a>
       <div class="product-info">
         <div class="product-cat">${p.category}</div>
-        <h3 class="product-name">${p.name}</h3>
-        <div class="product-price-row">
-          <div class="product-price">
-            ${p.oldPrice ? `<span class="strike">${fmtINR(p.oldPrice)}</span>` : ""}${fmtINR(p.price)}
-          </div>
-          <button class="add-btn" onclick="addToCart('${p.id}'); this.textContent='Added'; setTimeout(()=>this.textContent='Add',1200)">Add</button>
+        <h3 class="product-name"><a href="${productUrl}">${p.name}</a></h3>
+        <div class="product-price">
+          ${p.oldPrice ? `<span class="strike">${fmtINR(p.oldPrice)}</span>` : ""}${fmtINR(p.price)}
+        </div>
+        <div class="product-card-actions">
+          <a class="product-detail-link" href="${productUrl}">View details</a>
+          <button class="add-btn" type="button" onclick="addToCart('${p.id}'); this.textContent='Added'; setTimeout(()=>this.textContent='Add to bag',1200)">Add to bag</button>
         </div>
       </div>
-    </div>`;
+    </article>`;
 }
 
 function renderGrid(el, list) {
