@@ -1208,3 +1208,29 @@ body {
     letter-spacing: .09em;
   }
 }
+
+
+/* Restore artwork as first slide inside rotating hero */
+.hero-slide-artwork {
+  padding: 0;
+  justify-content: center;
+}
+
+.hero-slide-artwork > img {
+  object-fit: cover;
+  object-position: center center;
+}
+
+.hero-slide-artwork .hero-artwork-button {
+  z-index: 3;
+}
+
+@media (max-width: 700px) {
+  .hero-slide-artwork {
+    padding: 0;
+  }
+
+  .hero-slide-artwork > img {
+    object-position: center center;
+  }
+}
