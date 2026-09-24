@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://milele.t8t.bar/sitemap.xml
