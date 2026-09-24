@@ -48,6 +48,15 @@
   </div>
 </section>
 
+<section class="section recently-viewed-section" id="recently-viewed-section" hidden>
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="section-eyebrow">Your edit</span><h2 class="section-title">Recently viewed</h2></div>
+    </div>
+    <div class="product-grid" id="recently-viewed-grid"></div>
+  </div>
+</section>
+
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
@@ -89,6 +98,7 @@
 
         <div class="product-detail-actions">
           <button class="btn btn-primary" type="button" id="detail-add">Add to bag</button>
+          <button class="btn btn-outline detail-wishlist" type="button" id="detail-wishlist" aria-pressed="false">♡ Save piece</button>
           <a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Milèle! I'd like more details about " + product.name + ".")}">Ask on WhatsApp</a>
         </div>
 
@@ -107,6 +117,31 @@
     addToCart(product.id);
     e.currentTarget.textContent = "Added to bag";
   });
+
+  const wishlistButton = document.getElementById("detail-wishlist");
+  const syncWishlistButton = () => {
+    const active = isWishlisted(product.id);
+    wishlistButton.classList.toggle("active", active);
+    wishlistButton.setAttribute("aria-pressed", String(active));
+    wishlistButton.textContent = active ? "♥ Saved" : "♡ Save piece";
+  };
+  syncWishlistButton();
+  wishlistButton.addEventListener("click", () => {
+    toggleWishlist(product.id);
+    syncWishlistButton();
+  });
+
+  const previousRecent = getRecentlyViewed()
+    .filter(recentId => recentId !== product.id)
+    .map(recentId => PRODUCTS.find(p => p.id === recentId))
+    .filter(Boolean)
+    .slice(0, 4);
+  if (previousRecent.length) {
+    const recentSection = document.getElementById("recently-viewed-section");
+    recentSection.hidden = false;
+    renderGrid(document.getElementById("recently-viewed-grid"), previousRecent);
+  }
+  markRecentlyViewed(product.id);
 
   const related = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
   renderGrid(document.getElementById("related-grid"), related);

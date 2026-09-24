@@ -128,6 +128,10 @@ function productCard(p) {
     : diamondIconSVG();
   return `
     <article class="product-card">
+      <button class="wishlist-btn ${isWishlisted(p.id) ? "active" : ""}" type="button"
+        aria-label="${isWishlisted(p.id) ? "Remove from wishlist" : "Add to wishlist"}"
+        aria-pressed="${isWishlisted(p.id)}"
+        onclick="toggleWishlist('${p.id}', this)">${isWishlisted(p.id) ? "♥" : "♡"}</button>
       <a class="product-media" href="${productUrl}" aria-label="View ${p.name}">
         ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ""}
         ${mediaHtml}
@@ -195,3 +199,49 @@ function initMobileNavigation() {
   });
 }
 document.addEventListener("DOMContentLoaded", initMobileNavigation);
+
+
+/* ---------------- wishlist + recently viewed ---------------- */
+function getWishlist() {
+  try { return JSON.parse(localStorage.getItem("milele_wishlist")) || []; }
+  catch { return []; }
+}
+function saveWishlist(list) {
+  localStorage.setItem("milele_wishlist", JSON.stringify([...new Set(list)]));
+}
+function isWishlisted(id) {
+  return getWishlist().includes(id);
+}
+function toggleWishlist(id, button) {
+  const list = getWishlist();
+  const exists = list.includes(id);
+  const next = exists ? list.filter(x => x !== id) : [...list, id];
+  saveWishlist(next);
+  if (button) {
+    button.classList.toggle("active", !exists);
+    button.setAttribute("aria-pressed", String(!exists));
+    button.setAttribute("aria-label", !exists ? "Remove from wishlist" : "Add to wishlist");
+    button.textContent = !exists ? "♥" : "♡";
+  }
+}
+function getRecentlyViewed() {
+  try { return JSON.parse(localStorage.getItem("milele_recent")) || []; }
+  catch { return []; }
+}
+function markRecentlyViewed(id) {
+  const next = [id, ...getRecentlyViewed().filter(x => x !== id)].slice(0, 8);
+  localStorage.setItem("milele_recent", JSON.stringify(next));
+}
+
+function initFloatingWhatsApp() {
+  if (document.querySelector(".floating-whatsapp")) return;
+  const a = document.createElement("a");
+  a.className = "floating-whatsapp";
+  a.href = `https://wa.me/${WHATSAPP_NUMBER}`;
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.setAttribute("aria-label", "Chat with Milèle on WhatsApp");
+  a.innerHTML = '<span>WhatsApp</span><strong>↗</strong>';
+  document.body.appendChild(a);
+}
+document.addEventListener("DOMContentLoaded", initFloatingWhatsApp);
