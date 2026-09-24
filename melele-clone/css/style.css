@@ -877,9 +877,18 @@ input:focus-visible {
   --gold: #C5A880;
   --gold-light: #DFCFBA;
   --oxblood: #A88A61;
+
+  /* Semantic dark-theme tokens */
+  --bg: #070708;
+  --surface: #111113;
+  --text-primary: #FFFFFF;
+  --text-secondary: #a3a3ac;
 }
 
-body { background: #070708; color: #FFFFFF; }
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+}
 
 .site-header {
   background: rgba(7, 7, 8, 0.92);
@@ -898,8 +907,27 @@ body { background: #070708; color: #FFFFFF; }
 .hero-content {
   background: linear-gradient(135deg, rgba(7,7,8,.88) 0%, rgba(17,17,19,.58) 100%);
   border-color: rgba(197,168,128,.15);
+  color: var(--text-primary);
 }
-.hero p { color: #a3a3ac; }
+
+.hero h1 {
+  color: var(--text-primary);
+}
+
+.hero p {
+  color: var(--text-secondary);
+}
+
+.btn-outline {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
+.btn-outline:hover {
+  color: var(--text-primary);
+  border-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.10);
+}
 
 .enquiry-section,
 .features { background: #111113; }
@@ -1020,11 +1048,12 @@ body { background: #070708; color: #FFFFFF; }
   font-size: clamp(44px, 5vw, 66px);
   margin-bottom: 24px;
   text-shadow: none;
+  color: var(--text-primary);
 }
 .hero-content-centered p {
   max-width: 720px;
   margin: 0 auto 36px;
-  color: #a3a3ac;
+  color: var(--text-secondary);
   line-height: 1.75;
 }
 .hero-content-centered .hero-ctas { justify-content: center; }
