@@ -651,7 +651,7 @@ input:focus-visible {
 
 /* ---------- footer ---------- */
 .site-footer {
-  background: var(--ink);
+  background: var(--surface);
   color: #D9D0BC;
   padding: 72px 0 28px;
 }
