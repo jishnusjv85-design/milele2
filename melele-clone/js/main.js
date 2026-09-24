@@ -170,3 +170,25 @@ function checkoutOnWhatsApp() {
 
 /* ---------------- init on every page ---------------- */
 document.addEventListener("DOMContentLoaded", updateCartCount);
+
+
+/* ---------------- premium mobile navigation ---------------- */
+function initMobileNavigation() {
+  const header = document.querySelector(".site-header");
+  const toggle = document.querySelector(".menu-toggle");
+  const nav = document.querySelector(".main-nav");
+  if (!header || !toggle || !nav) return;
+
+  const setOpen = (open) => {
+    header.classList.toggle("menu-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  };
+
+  toggle.addEventListener("click", () => setOpen(!header.classList.contains("menu-open")));
+  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") setOpen(false);
+  });
+}
+document.addEventListener("DOMContentLoaded", initMobileNavigation);
