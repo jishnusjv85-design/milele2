@@ -652,7 +652,7 @@ input:focus-visible {
 /* ---------- footer ---------- */
 .site-footer {
   background: var(--surface);
-  color: #D9D0BC;
+  color: var(--text-primary);
   padding: 72px 0 28px;
 }
 .footer-grid {
@@ -672,7 +672,7 @@ input:focus-visible {
 .footer-grid p, .footer-grid a {
   font-size: 14px;
   line-height: 1.9;
-  color: #C9BFA8;
+  color: #D4D4D8;
 }
 .footer-grid a:hover {
   color: var(--gold-light);
@@ -680,7 +680,7 @@ input:focus-visible {
 .footer-logo {
   font-family: var(--font-display);
   font-size: 26px;
-  color: var(--cream-2);
+  color: var(--text-primary);
   margin-bottom: 12px;
   display: block;
 }
@@ -697,7 +697,7 @@ input:focus-visible {
   align-items: center;
   padding-top: 24px;
   font-size: 12px;
-  color: #8F856F;
+  color: #BFC0C8;
   flex-wrap: wrap;
   gap: 8px;
 }
