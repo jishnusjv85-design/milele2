@@ -1783,3 +1783,61 @@ p {
   .section { padding: 64px 0; }
   .section-title { font-size: 34px; }
 }
+
+
+/* ===== 8/14: brand story ===== */
+.about-hero.editorial-hero {
+  text-align: left;
+}
+.about-hero.editorial-hero .section-title,
+.about-hero.editorial-hero h1 {
+  max-width: 11ch;
+}
+.about-hero .about-lead {
+  max-width: 58ch;
+  margin: 24px 0 0;
+  color: var(--text-secondary);
+  font-style: normal;
+}
+.story-grid {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: clamp(48px, 8vw, 110px);
+  align-items: center;
+}
+.story-copy p {
+  color: var(--text-secondary);
+  line-height: 1.85;
+  font-size: 16px;
+}
+.story-image {
+  margin: 0;
+  border: 1px solid rgba(197,168,128,.14);
+  background: var(--surface);
+  overflow: hidden;
+}
+.story-image img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+.story-panel {
+  background: var(--surface);
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.split-editorial {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: clamp(42px, 8vw, 120px);
+  align-items: start;
+}
+.split-editorial .btn {
+  margin-top: 18px;
+}
+@media (max-width: 800px) {
+  .story-grid,
+  .split-editorial {
+    grid-template-columns: 1fr;
+  }
+}
