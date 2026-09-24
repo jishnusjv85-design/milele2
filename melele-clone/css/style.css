@@ -2109,3 +2109,58 @@ p {
     height: 68vh;
   }
 }
+
+
+/* ===== 11/14: support content ===== */
+.support-stack {
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.support-block {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 26px;
+  padding: 42px 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.support-index {
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: .12em;
+}
+.support-block h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+.support-block p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 70ch;
+}
+.support-block > div > a {
+  display: inline-block;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: 11px;
+  margin-top: 10px;
+  border-bottom: 1px solid rgba(197,168,128,.45);
+}
+.support-block details {
+  max-width: 760px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.support-block details:last-child { border-bottom: 1px solid rgba(255,255,255,.08); }
+.support-block summary {
+  cursor: pointer;
+  color: #fff;
+  font-weight: 400;
+}
+@media (max-width: 600px) {
+  .support-block {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
