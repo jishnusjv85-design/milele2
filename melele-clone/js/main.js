@@ -122,26 +122,33 @@ function diamondIconSVG() {
 }
 
 function productCard(p) {
+  const productUrl = `product.html?id=${encodeURIComponent(p.id)}`;
   const mediaHtml = p.img
-    ? `<img src="${p.img}" alt="${p.name}" loading="lazy">`
+    ? `<img src="${p.img}" alt="${p.name}" loading="lazy" decoding="async">`
     : diamondIconSVG();
   return `
-    <div class="product-card">
-      <div class="product-media">
+    <article class="product-card">
+      <button class="wishlist-btn ${isWishlisted(p.id) ? "active" : ""}" type="button"
+        aria-label="${isWishlisted(p.id) ? "Remove from wishlist" : "Add to wishlist"}"
+        aria-pressed="${isWishlisted(p.id)}"
+        onclick="toggleWishlist('${p.id}', this)">${isWishlisted(p.id) ? "♥" : "♡"}</button>
+      <a class="product-media" href="${productUrl}" aria-label="View ${p.name}">
         ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ""}
         ${mediaHtml}
-      </div>
+        <span class="product-view-hint">View piece</span>
+      </a>
       <div class="product-info">
         <div class="product-cat">${p.category}</div>
-        <h3 class="product-name">${p.name}</h3>
-        <div class="product-price-row">
-          <div class="product-price">
-            ${p.oldPrice ? `<span class="strike">${fmtINR(p.oldPrice)}</span>` : ""}${fmtINR(p.price)}
-          </div>
-          <button class="add-btn" onclick="addToCart('${p.id}'); this.textContent='Added'; setTimeout(()=>this.textContent='Add',1200)">Add</button>
+        <h3 class="product-name"><a href="${productUrl}">${p.name}</a></h3>
+        <div class="product-price">
+          ${p.oldPrice ? `<span class="strike">${fmtINR(p.oldPrice)}</span>` : ""}${fmtINR(p.price)}
+        </div>
+        <div class="product-card-actions">
+          <a class="product-detail-link" href="${productUrl}">View details</a>
+          <button class="add-btn" type="button" onclick="addToCart('${p.id}'); this.textContent='Added'; setTimeout(()=>this.textContent='Add to bag',1200)">Add to bag</button>
         </div>
       </div>
-    </div>`;
+    </article>`;
 }
 
 function renderGrid(el, list) {
@@ -170,3 +177,143 @@ function checkoutOnWhatsApp() {
 
 /* ---------------- init on every page ---------------- */
 document.addEventListener("DOMContentLoaded", updateCartCount);
+
+
+/* ---------------- premium mobile navigation ---------------- */
+function initMobileNavigation() {
+  const header = document.querySelector(".site-header");
+  const toggle = document.querySelector(".menu-toggle");
+  const nav = document.querySelector(".main-nav");
+  if (!header || !toggle || !nav) return;
+
+  const setOpen = (open) => {
+    header.classList.toggle("menu-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  };
+
+  toggle.addEventListener("click", () => setOpen(!header.classList.contains("menu-open")));
+  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") setOpen(false);
+  });
+}
+document.addEventListener("DOMContentLoaded", initMobileNavigation);
+
+
+/* ---------------- wishlist + recently viewed ---------------- */
+function getWishlist() {
+  try { return JSON.parse(localStorage.getItem("milele_wishlist")) || []; }
+  catch { return []; }
+}
+function saveWishlist(list) {
+  localStorage.setItem("milele_wishlist", JSON.stringify([...new Set(list)]));
+}
+function isWishlisted(id) {
+  return getWishlist().includes(id);
+}
+function toggleWishlist(id, button) {
+  const list = getWishlist();
+  const exists = list.includes(id);
+  const next = exists ? list.filter(x => x !== id) : [...list, id];
+  saveWishlist(next);
+  if (button) {
+    button.classList.toggle("active", !exists);
+    button.setAttribute("aria-pressed", String(!exists));
+    button.setAttribute("aria-label", !exists ? "Remove from wishlist" : "Add to wishlist");
+    button.textContent = !exists ? "♥" : "♡";
+  }
+}
+function getRecentlyViewed() {
+  try { return JSON.parse(localStorage.getItem("milele_recent")) || []; }
+  catch { return []; }
+}
+function markRecentlyViewed(id) {
+  const next = [id, ...getRecentlyViewed().filter(x => x !== id)].slice(0, 8);
+  localStorage.setItem("milele_recent", JSON.stringify(next));
+}
+
+function initFloatingWhatsApp() {
+  if (document.querySelector(".floating-whatsapp")) return;
+  const a = document.createElement("a");
+  a.className = "floating-whatsapp";
+  a.href = `https://wa.me/${WHATSAPP_NUMBER}`;
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.setAttribute("aria-label", "Chat with Milèle on WhatsApp");
+  a.innerHTML = '<span>WhatsApp</span><strong>↗</strong>';
+  document.body.appendChild(a);
+}
+document.addEventListener("DOMContentLoaded", initFloatingWhatsApp);
+
+
+/* ---------------- unified professional footer ---------------- */
+function renderProfessionalFooter() {
+  const footer = document.querySelector(".site-footer");
+  if (!footer) return;
+  footer.innerHTML = `
+    <div class="wrap">
+      <div class="footer-assistance">
+        <div>
+          <span class="section-eyebrow">Personal assistance</span>
+          <h2>Need help choosing a piece?</h2>
+          <p>Ask about specifications, sizing, availability or delivery before you order.</p>
+        </div>
+        <a class="btn btn-primary" href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" rel="noopener">Talk to Milèle</a>
+      </div>
+
+      <div class="footer-grid footer-grid-pro">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">Milèle</a>
+          <p>Jewellery made for the pieces you keep—considered detail, clear product information and personal assistance when you need it.</p>
+        </div>
+
+        <div>
+          <h4>Shop</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html">All jewellery</a></li>
+            <li><a href="shop.html?category=Necklaces">Necklaces</a></li>
+            <li><a href="shop.html?category=Earrings">Earrings</a></li>
+            <li><a href="shop.html?category=Rings">Rings</a></li>
+            <li><a href="shop.html?category=Bracelets">Bracelets</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Discover</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">Our story</a></li>
+            <li><a href="about.html#craftsmanship">Craftsmanship</a></li>
+            <li><a href="about.html#materials">Materials & selection</a></li>
+            <li><a href="care.html">Care & authenticity</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Customer care</h4>
+          <ul class="footer-links">
+            <li><a href="support.html#shipping">Shipping</a></li>
+            <li><a href="support.html#returns">Returns & exchanges</a></li>
+            <li><a href="support.html#size">Sizing help</a></li>
+            <li><a href="support.html#faq">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p><a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" rel="noopener">WhatsApp +91 94972 33822</a></p>
+          <p><a href="mailto:hello@milele.com">hello@milele.com</a></p>
+          <p>Product details and delivery timing are confirmed before order.</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Milèle Jewels. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="care.html">Care & authenticity</a>
+          <a href="support.html">Customer care</a>
+        </div>
+      </div>
+    </div>`;
+}
+document.addEventListener("DOMContentLoaded", renderProfessionalFooter);
